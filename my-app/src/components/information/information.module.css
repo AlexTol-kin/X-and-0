@@ -1,0 +1,17 @@
+.span {
+	margin: auto;
+	width: 100px;
+	width: max-content;
+	display: grid;
+	color: rgb(90, 162, 207);
+	margin-top: 50px;
+	margin-bottom: 20px;
+}
+
+.spanDiv {
+	/* background-color: rgb(151, 143, 132); */
+	width: 350px;
+	margin: auto;
+	margin-top: 50px;
+	background-color: rgb(7, 32, 24);
+}

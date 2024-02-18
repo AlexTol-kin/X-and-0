@@ -1,0 +1,11 @@
+.field {
+	background: hsl(180, 29%, 19%);
+	font-size: 50px;
+	color: rgb(210, 205, 178);
+	border-radius: 7px;
+	transition: all 0.2s;
+	padding: 15px 20px;
+	cursor: pointer;
+	margin: 10px;
+	text-align: center;
+}
