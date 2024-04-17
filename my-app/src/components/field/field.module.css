@@ -1,3 +1,12 @@
+.app {
+	margin: auto;
+	background-color: rgb(7, 41, 25);
+	width: max-content;
+	display: grid;
+	grid-template-columns: 120px 120px 120px;
+	grid-template-rows: 120px 120px 120px;
+}
+
 .field {
 	background: hsl(180, 29%, 19%);
 	font-size: 50px;

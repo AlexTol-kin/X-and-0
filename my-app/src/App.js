@@ -1,63 +1,22 @@
-import { useState } from 'react';
-import { WIN_PATTERNS } from './constant/constant';
-import { addConditions, restartParam } from './constant/conditions';
+import { useEffect, useState } from 'react';
 import { AppLayout } from './AppLayout';
+import { store } from './store';
+import { checkConditions } from './utils/checkConditions';
+import { WIN_PATTERNS } from './constant';
 
 export const App = () => {
-	const [currentPlayer, setCurrentPlayer] = useState('X');
-	const [isGameEnded, setIsGameEnded] = useState(false);
-	const [isDraw, setIsDraw] = useState(false);
-	const [field, setField] = useState(['', '', '', '', '', '', '', '', '']);
+	const [myState, setMyState] = useState(false);
+	const { field, currentPlayer, isGameEnded } = store.getState();
 
-	const restarClick = (event) => {
-		const { target } = event;
-		restartParam(target, setCurrentPlayer, setIsGameEnded, setIsDraw, setField);
-	};
+	useEffect(() => {
+		checkConditions(field, WIN_PATTERNS, isGameEnded, currentPlayer);
+		const unsubscribe = store.subscribe(() => {
+			setMyState(!myState);
+		});
+		return () => {
+			unsubscribe();
+		};
+	});
 
-	const onClick = (event) => {
-		const { target } = event;
-		addNewArray(target);
-	};
-
-	const addNewArray = (target) => {
-		if (!isGameEnded && !isDraw && target.textContent === '') {
-			const newSetField = field.map((id, index) => {
-				if (index === Number(target.id) && id === '') {
-					return (id = currentPlayer);
-				} else {
-					return id;
-				}
-			});
-			setField(newSetField);
-			checkConditions(newSetField);
-		}
-	};
-
-	const checkConditions = (array) => {
-		for (const index of WIN_PATTERNS) {
-			if (
-				index.every((value) => array[value] === 'X') ||
-				(index.every((value) => array[value] === 'O') &&
-					array.some((id) => id === ''))
-			) {
-				return setIsGameEnded(true);
-			}
-		}
-		if (array.every((id) => id !== '' && !isGameEnded)) {
-			return setIsDraw(true);
-		}
-
-		addConditions(isGameEnded, currentPlayer, setCurrentPlayer);
-	};
-
-	return (
-		<AppLayout
-			currentPlayer={currentPlayer}
-			isGameEnded={isGameEnded}
-			isDraw={isDraw}
-			field={field}
-			onClick={onClick}
-			restarClick={restarClick}
-		/>
-	);
+	return <AppLayout />;
 };
