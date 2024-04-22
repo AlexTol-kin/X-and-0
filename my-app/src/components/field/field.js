@@ -2,9 +2,19 @@ import { store } from '../../store';
 import { FieldLayout } from './fieldLayout';
 import { WIN_PATTERNS } from '../../constant';
 import { checkConditions, nextPlayer } from '../../utils';
+import { useSelector } from 'react-redux';
+import {
+	selectCurrentPlayer,
+	selectField,
+	selectIsDraw,
+	selectIsGameEnded,
+} from '../../selectors';
 
 export const Field = () => {
-	const { field, currentPlayer, isGameEnded, isDraw } = store.getState();
+	const field = useSelector(selectField);
+	const currentPlayer = useSelector(selectCurrentPlayer);
+	const isGameEnded = useSelector(selectIsGameEnded);
+	const isDraw = useSelector(selectIsDraw);
 
 	const onClick = ({ target }) => {
 		if (!isGameEnded && !isDraw && target.textContent === '') {
@@ -20,7 +30,6 @@ export const Field = () => {
 
 			checkConditions(newField, WIN_PATTERNS, isGameEnded, currentPlayer);
 		}
-
 		nextPlayer(currentPlayer, isGameEnded);
 	};
 
